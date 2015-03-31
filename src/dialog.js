@@ -34,7 +34,7 @@ var _count = 0;
 var _expando = new Date() - 0; // Date.now()
 var _isIE6 = !('minWidth' in $('html')[0].style);
 var _isMobile = 'createTouch' in document && !('onmousemove' in document)
-    || /(iPhone|iPad|iPod)/i.test(navigator.userAgent);
+    || /(iPhone|iPad|iPod|mobile)/i.test(navigator.userAgent);
 var _isFixed = !_isIE6 && !_isMobile;
 
 
@@ -175,6 +175,11 @@ artDialog.create = function (options) {
         $backdrop
         .on(
             'onmousedown' in document ? 'mousedown' : 'click',
+            function () {
+            that._trigger('cancel');
+            return false;// 阻止抢夺焦点
+        }).on(
+            'touchend' in document ? 'touchend' : 'click',
             function () {
             that._trigger('cancel');
             return false;// 阻止抢夺焦点
